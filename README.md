@@ -7,6 +7,11 @@ In most cases using one of the existing integrations is preferred, but Raven add
 a low level client for manually building and sending events to Sentry that can be used in any JVM
 based application.
 
+## About the fork
+
+As raven-java doesn't support Java 6 and I had to try it on a project that uses Java 6, I remade one of the modules
+according to Java 6 standards. I also removed other modules that I don't need.
+
 ## Resources
 
 * [Documentation](https://docs.sentry.io/clients/java/)
