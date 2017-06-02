@@ -184,7 +184,7 @@ public class DefaultRavenFactory extends RavenFactory {
     private static final Logger logger = LoggerFactory.getLogger(DefaultRavenFactory.class);
     private static final String FALSE = Boolean.FALSE.toString();
 
-    private static final Map<String, RejectedExecutionHandler> REJECT_EXECUTION_HANDLERS = new HashMap<>();
+    private static final Map<String, RejectedExecutionHandler> REJECT_EXECUTION_HANDLERS = new HashMap<String, RejectedExecutionHandler>();
     static {
         REJECT_EXECUTION_HANDLERS.put(ASYNC_QUEUE_SYNC, new ThreadPoolExecutor.CallerRunsPolicy());
         REJECT_EXECUTION_HANDLERS.put(ASYNC_QUEUE_DISCARDNEW, new ThreadPoolExecutor.DiscardPolicy());
@@ -273,9 +273,9 @@ public class DefaultRavenFactory extends RavenFactory {
         BlockingDeque<Runnable> queue;
         int queueSize = getAsyncQueueSize(dsn);
         if (queueSize == -1) {
-            queue = new LinkedBlockingDeque<>();
+            queue = new LinkedBlockingDeque<Runnable>();
         } else {
-            queue = new LinkedBlockingDeque<>(queueSize);
+            queue = new LinkedBlockingDeque<Runnable>(queueSize);
         }
 
         ExecutorService executorService = new ThreadPoolExecutor(
@@ -405,7 +405,7 @@ public class DefaultRavenFactory extends RavenFactory {
             return Collections.emptyList();
         }
 
-        ArrayList<String> inAppPackages = new ArrayList<>();
+        ArrayList<String> inAppPackages = new ArrayList<String>();
         for (String inAppPackage : dsn.getOptions().get(IN_APP_FRAMES_OPTION).split(",")) {
             if (!inAppPackage.trim().equals("")) {
                 inAppPackages.add(inAppPackage);

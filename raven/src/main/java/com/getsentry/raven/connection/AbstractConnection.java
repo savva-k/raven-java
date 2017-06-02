@@ -40,7 +40,7 @@ public abstract class AbstractConnection implements Connection {
      */
     protected AbstractConnection(String publicKey, String secretKey) {
         this.lockdownManager = new LockdownManager();
-        this.eventSendFailureCallbacks = new HashSet<>();
+        this.eventSendFailureCallbacks = new HashSet<EventSendFailureCallback>();
         this.authHeader = "Sentry sentry_version=" + SENTRY_PROTOCOL_VERSION + ","
             + "sentry_client=" + RavenEnvironment.getRavenName() + ","
             + "sentry_key=" + publicKey + ","

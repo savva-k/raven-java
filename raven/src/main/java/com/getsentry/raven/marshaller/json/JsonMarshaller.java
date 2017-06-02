@@ -116,7 +116,7 @@ public class JsonMarshaller implements Marshaller {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonMarshaller.class);
     private final JsonFactory jsonFactory = new JsonFactory();
-    private final Map<Class<? extends SentryInterface>, InterfaceBinding<?>> interfaceBindings = new HashMap<>();
+    private final Map<Class<? extends SentryInterface>, InterfaceBinding<?>> interfaceBindings = new HashMap<Class<? extends SentryInterface>, InterfaceBinding<?>>();
     /**
      * Enables disables the compression of JSON.
      */
@@ -151,7 +151,9 @@ public class JsonMarshaller implements Marshaller {
             destination = new DeflaterOutputStream(new Base64OutputStream(destination, Base64.NO_WRAP));
         }
 
-        try (JsonGenerator generator = jsonFactory.createGenerator(destination)) {
+        JsonGenerator generator = null;
+
+        try {
             writeContent(generator, event);
         } catch (IOException e) {
             logger.error("An exception occurred while serialising the event.", e);
@@ -160,6 +162,14 @@ public class JsonMarshaller implements Marshaller {
                 destination.close();
             } catch (IOException e) {
                 logger.error("An exception occurred while serialising the event.", e);
+            }
+
+            if (generator != null) {
+                try {
+                    generator.close();
+                } catch (IOException e) {
+                    logger.error("An exception occurred while closing the generator", e);
+                }
             }
         }
     }

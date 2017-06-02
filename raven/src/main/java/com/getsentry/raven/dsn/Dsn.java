@@ -58,8 +58,8 @@ public class Dsn {
             throw new InvalidDsnException("The sentry DSN must be provided and not be null");
         }
 
-        options = new HashMap<>();
-        protocolSettings = new HashSet<>();
+        options = new HashMap<String, String>();
+        protocolSettings = new HashSet<String>();
 
         extractProtocolInfo(dsn);
         extractUserKeys(dsn);
@@ -188,7 +188,7 @@ public class Dsn {
      * Mandatory elements are the {@link #host}, {@link #publicKey}, {@link #secretKey} and {@link #projectId}.
      */
     private void validate() {
-        List<String> missingElements = new LinkedList<>();
+        List<String> missingElements = new LinkedList<String>();
         if (host == null) {
             missingElements.add("host");
         }

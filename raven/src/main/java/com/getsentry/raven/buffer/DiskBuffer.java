@@ -4,11 +4,7 @@ import com.getsentry.raven.event.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -78,11 +74,30 @@ public class DiskBuffer implements Buffer {
             logger.debug("Adding Event to offline storage: " + eventFile.getAbsolutePath());
         }
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream(eventFile);
-             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(eventFile);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(event);
         } catch (Exception e) {
             logger.error("Error writing Event to offline storage: " + event.getId(), e);
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    logger.error("Error closing fileOutputStream", e);
+                }
+            }
+            if (objectOutputStream != null) {
+                try {
+                    objectOutputStream.close();
+                } catch (IOException e) {
+                    logger.error("Error closing objectOutputStream", e);
+                }
+            }
         }
 
         logger.debug(Integer.toString(getNumStoredEvents())

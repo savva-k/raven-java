@@ -47,7 +47,7 @@ public class Context implements Serializable {
      * @param breadcrumbLimit Number of Breadcrumb objects to retain in ring buffer.
      */
     public Context(int breadcrumbLimit) {
-        breadcrumbs = new CircularFifoQueue<>(breadcrumbLimit);
+        breadcrumbs = new CircularFifoQueue<Breadcrumb>(breadcrumbLimit);
     }
 
     /**

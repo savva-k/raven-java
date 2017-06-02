@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The Message interface for Sentry allows to send the original pattern to Sentry, allowing the events to be grouped
@@ -73,7 +72,7 @@ public class MessageInterface implements SentryInterface {
      */
     public MessageInterface(String message, List<String> parameters, String formatted) {
         this.message = message;
-        this.parameters = Collections.unmodifiableList(new ArrayList<>(parameters));
+        this.parameters = Collections.unmodifiableList(new ArrayList<String>(parameters));
         this.formatted = formatted;
     }
 
@@ -105,20 +104,22 @@ public class MessageInterface implements SentryInterface {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
         MessageInterface that = (MessageInterface) o;
-        return Objects.equals(message, that.message)
-            && Objects.equals(parameters, that.parameters)
-            && Objects.equals(formatted, that.formatted);
+
+        if (message != null ? !message.equals(that.message) : that.message != null) return false;
+        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
+        return formatted != null ? formatted.equals(that.formatted) : that.formatted == null;
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(message, parameters, formatted);
+        int result = message != null ? message.hashCode() : 0;
+        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        result = 31 * result + (formatted != null ? formatted.hashCode() : 0);
+        return result;
     }
 }

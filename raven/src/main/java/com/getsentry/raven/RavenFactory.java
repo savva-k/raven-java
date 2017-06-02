@@ -19,7 +19,7 @@ import java.util.Set;
 public abstract class RavenFactory {
     private static final ServiceLoader<RavenFactory> AUTO_REGISTERED_FACTORIES =
         ServiceLoader.load(RavenFactory.class, RavenFactory.class.getClassLoader());
-    private static final Set<RavenFactory> MANUALLY_REGISTERED_FACTORIES = new HashSet<>();
+    private static final Set<RavenFactory> MANUALLY_REGISTERED_FACTORIES = new HashSet<RavenFactory>();
     private static final Logger logger = LoggerFactory.getLogger(RavenFactory.class);
 
     /**
@@ -36,7 +36,7 @@ public abstract class RavenFactory {
     }
 
     private static Iterable<RavenFactory> getRegisteredFactories() {
-        List<RavenFactory> ravenFactories = new LinkedList<>();
+        List<RavenFactory> ravenFactories = new LinkedList<RavenFactory>();
         ravenFactories.addAll(MANUALLY_REGISTERED_FACTORIES);
         for (RavenFactory autoRegisteredFactory : AUTO_REGISTERED_FACTORIES) {
             ravenFactories.add(autoRegisteredFactory);
@@ -86,8 +86,8 @@ public abstract class RavenFactory {
 
         // Loop through registered factories, keeping track of which classes we skip, which we try to instantiate,
         // and the last exception thrown.
-        ArrayList<String> skippedFactories = new ArrayList<>();
-        ArrayList<String> triedFactories = new ArrayList<>();
+        ArrayList<String> skippedFactories = new ArrayList<String>();
+        ArrayList<String> triedFactories = new ArrayList<String>();
         RuntimeException lastExc = null;
 
         for (RavenFactory ravenFactory : getRegisteredFactories()) {

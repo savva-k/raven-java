@@ -28,7 +28,9 @@ public final class Lookup {
             // Check that JNDI is available (not available on Android) by loading InitialContext
             Class.forName("javax.naming.InitialContext", false, Dsn.class.getClassLoader());
             value = JndiLookup.jndiLookup(key);
-        } catch (ClassNotFoundException | NoClassDefFoundError e) {
+        } catch (ClassNotFoundException e) {
+            logger.debug("JNDI not available", e);
+        } catch (NoClassDefFoundError e) {
             logger.debug("JNDI not available", e);
         }
 

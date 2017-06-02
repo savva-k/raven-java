@@ -61,7 +61,7 @@ public final class Util {
             return Collections.emptySet();
         }
 
-        return new HashSet<>(Arrays.asList(extraTagsString.split(",")));
+        return new HashSet<String>(Arrays.asList(extraTagsString.split(",")));
     }
 
     /**

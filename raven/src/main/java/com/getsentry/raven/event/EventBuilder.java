@@ -111,7 +111,7 @@ public class EventBuilder {
         event.setBreadcrumbs(Collections.unmodifiableList(event.getBreadcrumbs()));
 
         // Make the contexts unmodifiable
-        Map<String, Map<String, Object>> tempContexts = new HashMap<>();
+        Map<String, Map<String, Object>> tempContexts = new HashMap<String, Map<String, Object>>();
         for (Map.Entry<String, Map<String, Object>> contextEntry : event.getContexts().entrySet()) {
             tempContexts.put(contextEntry.getKey(), Collections.unmodifiableMap(contextEntry.getValue()));
         }
@@ -324,7 +324,7 @@ public class EventBuilder {
      * @return the current {@code EventBuilder} for chained calls.
      */
     public EventBuilder withFingerprint(String... fingerprint) {
-        List<String> list = new ArrayList<>(fingerprint.length);
+        List<String> list = new ArrayList<String>(fingerprint.length);
         Collections.addAll(list, fingerprint);
         event.setFingerprint(list);
         return this;
@@ -484,7 +484,7 @@ public class EventBuilder {
          * Force an update of the cache to get the current value of the hostname.
          */
         public void updateCache() {
-            FutureTask<String> futureTask = new FutureTask<>(new HostRetriever());
+            FutureTask<String> futureTask = new FutureTask<String>(new HostRetriever());
             try {
                 new Thread(futureTask).start();
                 logger.debug("Updating the hostname cache");

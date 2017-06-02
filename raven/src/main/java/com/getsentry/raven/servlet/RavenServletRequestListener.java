@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RavenServletRequestListener implements ServletRequestListener {
     private static final Logger logger = LoggerFactory.getLogger(RavenServletRequestListener.class);
 
-    private static final ThreadLocal<HttpServletRequest> THREAD_REQUEST = new ThreadLocal<>();
+    private static final ThreadLocal<HttpServletRequest> THREAD_REQUEST = new ThreadLocal<HttpServletRequest>();
 
     public static HttpServletRequest getServletRequest() {
         return THREAD_REQUEST.get();
